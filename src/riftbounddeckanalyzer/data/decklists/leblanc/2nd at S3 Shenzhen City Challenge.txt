@@ -1,0 +1,43 @@
+Date:
+2026-05-04
+
+Legend:
+1 Leblanc, Deceiver
+
+Champion:
+1 LeBlanc, Fragmented
+
+MainDeck:
+3 Karthus, Eternal
+2 Ruined Rex
+1 Black Rose Dignitary
+3 Glasc Mixologist
+3 Watchful Sentry
+2 Thousand-Tailed Watcher
+3 Soaring Scout
+2 Shadow's Call
+2 Smoke and Mirrors
+3 Sacrifice
+2 Deathgrip
+3 Mirror Image
+3 Cull the Weak
+2 Hidden Blade
+3 Sprite Fountain
+1 Honest Broker
+1 Hwei, Brooding Painter
+
+Battlefields:
+1 Dusk Rose Lab
+1 Windswept Hillock
+1 Forbidding Waste
+
+Rune Pool:
+7 Order Rune
+5 Mind Rune
+
+Sideboard:
+1 Kai'Sa, Evolutionary
+3 Salvage
+2 Turn to Dust
+1 Hwei, Brooding Painter
+1 Atakhan

@@ -1,0 +1,55 @@
+{
+    "combined_main_deck": {
+        "Unsung Hero": 3.0,
+        "B.F. Sword": 3.0,
+        "Riposte": 2.67,
+        "Sett, Brawler": 2.67,
+        "Spectral Matron": 2.67,
+        "Punch First": 2.67,
+        "First Mate": 2.33,
+        "Pit Rookie": 2.0,
+        "Challenge": 2.0,
+        "Shepherd's Heirloom": 2.0,
+        "Grim Resolve": 2.0,
+        "Hidden Blade": 1.67,
+        "Sacrifice": 1.67,
+        "Baited Hook": 1.67,
+        "Kinkou Initiate": 1.33,
+        "Harnessed Dragon": 1.33,
+        "Ashe, Focused": 0.67,
+        "Sea Monkey": 0.67,
+        "Akshan, Mischievous": 0.67,
+        "Fiora, Worthy": 0.67,
+        "Honest Broker": 0.67,
+        "Yordle Explorer": 0.67,
+        "Fiora, Victorious": 0.33,
+        "Demacian Diplomat": 0.33,
+        "Deathgrip": 0.33,
+        "Heroic Charge": 0.33
+    },
+    "combined_battlefields": {
+        "Sunken Temple": 1.0,
+        "Trifarian War Camp": 1.0,
+        "Monastery of Hirana": 0.33,
+        "The Candlelit Sanctum": 0.33,
+        "Trapping Grounds": 0.33
+    },
+    "combined_runes": {
+        "Order Rune": 6.67,
+        "Body Rune": 5.33
+    },
+    "combined_sideboards": {
+        "Salvage": 1.67,
+        "Unyielding Spirit": 1.33,
+        "Akshan, Mischievous": 1.0,
+        "Baited Hook": 0.67,
+        "Fiora, Victorious": 0.67,
+        "Repulse": 0.67,
+        "Fiora, Peerless": 0.33,
+        "Ashe, Focused": 0.33,
+        "Grim Resolve": 0.33,
+        "Yordle Explorer": 0.33,
+        "Laurent Duelist": 0.33,
+        "Clash of Giants": 0.33
+    }
+}

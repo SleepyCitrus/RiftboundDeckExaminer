@@ -1,0 +1,41 @@
+Date:
+2026-05-03
+
+Legend:
+1 Leblanc, Deceiver
+
+Champion:
+1 LeBlanc, Fragmented
+
+MainDeck:
+1 LeBlanc, Fragmented
+2 Ruined Rex
+1 Chakram Dancer
+3 Glasc Mixologist
+3 Watchful Sentry
+3 Thousand-Tailed Watcher
+3 Soaring Scout
+3 Cull the Weak
+3 Hidden Blade
+2 Sprite Fountain
+3 Deathgrip
+3 Karthus, Eternal
+2 Mirror Image
+2 Seal of Unity
+3 Carrion Dredger
+2 Wages of Pain
+
+Battlefields:
+1 Dusk Rose Lab
+1 Zaun Warrens
+1 Windswept Hillock
+
+Rune Pool:
+7 Order Rune
+5 Mind Rune
+
+Sideboard:
+1 Bellows Breath
+3 Salvage
+2 The Ruination
+2 Eclipse

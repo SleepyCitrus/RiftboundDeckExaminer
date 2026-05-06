@@ -1,0 +1,22 @@
+[project]
+name = "riftbounddeckanalyzer"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Vincent Jiang",email = "vincejiang1996@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[project.scripts]
+read-decks = "riftbounddeckanalyzer.readers.deck_reader:main_function"
+
+[tool.black]
+skip-magic-trailing-comma = true
