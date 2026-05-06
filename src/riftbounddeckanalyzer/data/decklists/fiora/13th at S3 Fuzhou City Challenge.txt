@@ -1,0 +1,45 @@
+Date:
+2026-04-26
+
+Legend:
+1 Fiora, Grand Duelist
+
+Champion:
+1 Fiora, Victorious
+
+MainDeck:
+3 Nidalee, Cat Form
+1 Fiora, Worthy
+2 Sett, Brawler
+2 Sea Monkey
+2 Unsung Hero
+3 First Mate
+3 Pit Rookie
+2 Grim Resolve
+1 Shadow's Call
+2 Sacrifice
+2 Tactical Retreat
+1 Deathgrip
+3 Challenge
+1 Sabotage
+2 Call to Glory
+2 Doran's Blade
+3 B.F. Sword
+2 Riposte
+2 Hidden Blade
+
+Battlefields:
+1 Altar of Blood
+1 Sunken Temple
+1 Zaun Warrens
+
+Rune Pool:
+6 Body Rune
+6 Order Rune
+
+Sideboard:
+1 Fiora, Peerless
+2 Repulse
+1 Unyielding Spirit
+2 Sabotage
+2 Salvage

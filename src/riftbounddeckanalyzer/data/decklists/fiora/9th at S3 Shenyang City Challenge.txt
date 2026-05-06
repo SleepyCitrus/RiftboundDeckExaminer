@@ -1,0 +1,46 @@
+Date:
+2026-04-26
+
+Legend:
+1 Fiora, Grand Duelist
+
+Champion:
+1 Fiora, Victorious
+
+MainDeck:
+2 Riposte
+1 Ashe, Focused
+1 Akshan, Mischievous
+1 Fiora, Worthy
+2 Sett, Brawler
+1 Demacian Diplomat
+3 Kinkou Initiate
+3 Unsung Hero
+2 First Mate
+3 Pit Rookie
+3 Spectral Matron
+2 Harnessed Dragon
+2 Grim Resolve
+1 Sacrifice
+2 Punch First
+2 Salvage
+2 Shepherd's Heirloom
+3 B.F. Sword
+3 Baited Hook
+
+Battlefields:
+1 Ornn's Forge
+1 Sunken Temple
+1 Trifarian War Camp
+
+Rune Pool:
+5 Body Rune
+7 Order Rune
+
+Sideboard:
+1 Sett, Brawler
+1 Harnessed Dragon
+1 Repulse
+2 Challenge
+2 Unyielding Spirit
+1 Sabotage

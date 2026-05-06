@@ -7,48 +7,13 @@ from typing import TextIO
 
 from riftbounddeckanalyzer.analyzers.deck_analyzer import DeckAnalyzer
 from riftbounddeckanalyzer.decks.deck import DATE_FORMAT, Deck
+from riftbounddeckanalyzer.readers.utils.util import get_user_input
 
 decks_path = Path(f"{Path.cwd()}/src/riftbounddeckanalyzer/data/decklists")
 
 
 @dataclass
 class DeckReader:
-
-    def get_user_input[T](
-        self, options: dict[str, T], prompt: str = ""
-    ) -> tuple[str, T]:
-        """
-        Options should be a key-value pair consisting of the name of the object and the
-        object iself. Prompt (optional) is printed before the choices in numerical order.
-
-        Returns the name of the selected object and the selected object itself.
-        """
-        options_as_numbers = defaultdict()
-
-        for idx, (key, value) in enumerate(options.items()):
-            options_as_numbers[idx + 1] = key
-
-        option_list = [""]
-        for option_key, option_val in options_as_numbers.items():
-            option_list.append(f"{option_key}. {option_val}")
-
-        full_prompt = prompt + "\n".join(option_list) + "\n"
-        retry_prompt = "\nInvalid input, retry:\n" + full_prompt
-
-        retry = False
-        first_run = True
-        while True:
-            if retry:
-                full_prompt = retry_prompt
-            user_choice = input(full_prompt)
-
-            if user_choice.isdigit() and int(user_choice) in options_as_numbers:
-                return (
-                    options_as_numbers[int(user_choice)],
-                    options[options_as_numbers[int(user_choice)]],
-                )
-
-            retry = True
 
     def read_date(self, file: TextIO) -> str:
         try:
@@ -76,8 +41,9 @@ class DeckReader:
 
         return block
 
-    def compile_decks(self, deck_files: list[Path]) -> list[Deck]:
+    def compile_decks(self, deck_files: list[Path]) -> tuple[list[Deck], set[str]]:
         valid_decks: list[Deck] = []
+        unique_cards = set()
 
         for deck_file in deck_files:
             with open(deck_file, "r") as f:
@@ -109,9 +75,11 @@ class DeckReader:
                     elif "MainDeck:" in line:
                         cards = self.read_block(f)
                         deck.main_deck = cards
+                        unique_cards.update(cards.keys())
                     elif "Battlefields:" in line:
                         cards = self.read_block(f)
                         deck.battlefields = cards
+                        unique_cards.update(cards.keys())
                     elif "Rune Pool:" in line:
                         cards = self.read_block(f)
                         deck.runes = cards
@@ -123,7 +91,7 @@ class DeckReader:
                     # Process parsed deck information
                     valid_decks.append(deck)
 
-        return valid_decks
+        return valid_decks, unique_cards
 
     def pick_legend(self):
         """
@@ -134,12 +102,23 @@ class DeckReader:
             x.as_posix().split("/")[-1]: x for x in decks_path.iterdir() if x.is_dir()
         }
 
-        legend_name, legend_path = self.get_user_input(
+        user_input = get_user_input(
             legends, "Pick the legend to compile deck information about:"
         )
-        decks = self.compile_decks(list(legend_path.glob("*.txt")))
+        decks = []
+        legend_name = ""
+        unique_cards = set()
+        for _, legend_path in user_input.items():
+            legend_name = _
+            decks, unique_cards = self.compile_decks(list(legend_path.glob("*.txt")))
 
-        analyzer = DeckAnalyzer(decks)
+        excluded_cards = get_user_input(
+            {x: x for x in unique_cards},
+            "Choose any decks with the following cards to exclude (enter to continue):",
+            multiselect=True,
+        )
+
+        analyzer = DeckAnalyzer(decks, list(excluded_cards.keys()))
         analyzer.aggregate().pretty_print()
 
         output_path = Path(
@@ -149,7 +128,7 @@ class DeckReader:
 
         with open(output_path, "w") as f:
             json.dump(
-                asdict(analyzer, dict_factory=analyzer.exclude_decks),
+                asdict(analyzer, dict_factory=analyzer.exclude_base_decks),
                 f,
                 indent=4,
                 default=lambda o: o.isoformat() if isinstance(o, datetime) else str(o),
