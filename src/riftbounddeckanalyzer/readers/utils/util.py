@@ -10,15 +10,22 @@ def get_user_input[T](
 
     Returns the name and the selected object or objects if multiselect is enabled.
     """
+    sorted_options = sorted(options.keys())
     numbered_options = defaultdict()
 
-    for idx, (key, value) in enumerate(options.items()):
-        numbered_options[idx + 1] = key
+    for idx, option in enumerate(sorted_options):
+        numbered_options[idx + 1] = option
 
     retry = False
     selections = defaultdict()
     while True:
         option_list = [""]
+
+        if retry:
+            option_list.append("Invalid input, retry:")
+
+        option_list.append(prompt)
+
         if multiselect:
             for opt_key, opt_val in numbered_options.items():
                 if opt_val in selections:
@@ -29,9 +36,7 @@ def get_user_input[T](
             for option_key, option_val in numbered_options.items():
                 option_list.append(f" {option_key}. {option_val}")
 
-        full_prompt = prompt + "\n".join(option_list) + "\n"
-        if retry:
-            full_prompt = "\nInvalid input, retry:\n" + full_prompt
+        full_prompt = "\n".join(option_list) + "\n"
 
         user_choice = input(full_prompt)
 
@@ -48,7 +53,6 @@ def get_user_input[T](
                         numbered_options[int(user_choice)]
                     ]
                 }
-        else:
-            if multiselect:
-                return selections
-            retry = True
+        elif multiselect and not user_choice:
+            return selections
+        retry = True

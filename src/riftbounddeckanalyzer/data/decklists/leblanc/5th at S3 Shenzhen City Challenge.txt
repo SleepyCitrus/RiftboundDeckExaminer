@@ -1,0 +1,42 @@
+Date:
+2026-05-05
+
+Legend:
+1 Leblanc, Deceiver
+
+Champion:
+1 LeBlanc, Fragmented
+
+MainDeck:
+3 Watchful Sentry
+3 Honest Broker
+2 Soaring Scout
+2 Black Rose Dignitary
+2 Karthus, Eternal
+3 Chakram Dancer
+3 Glasc Mixologist
+2 Vi, Peacekeeper
+2 Ruined Rex
+2 Thousand-Tailed Watcher
+3 Stupefy
+2 Sacrifice
+3 Deathgrip
+2 Hidden Blade
+3 Cull the Weak
+2 Mirror Image
+
+Battlefields:
+1 Dusk Rose Lab
+1 Black Flame Altar
+1 Trifarian War Camp
+
+Rune Pool:
+5 Mind Rune
+7 Order Rune
+
+Sideboard:
+2 Salvage
+2 Bellows Breath
+1 LeBlanc, Everywhere at Once
+1 Black Rose Dignitary
+2 Galio, Indefatigable

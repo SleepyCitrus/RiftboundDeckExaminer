@@ -79,7 +79,6 @@ class DeckReader:
                     elif "Battlefields:" in line:
                         cards = self.read_block(f)
                         deck.battlefields = cards
-                        unique_cards.update(cards.keys())
                     elif "Rune Pool:" in line:
                         cards = self.read_block(f)
                         deck.runes = cards
