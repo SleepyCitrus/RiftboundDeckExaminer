@@ -1,4 +1,5 @@
 from collections import defaultdict
+import sys
 
 
 def get_user_input[T](
@@ -38,7 +39,9 @@ def get_user_input[T](
 
         full_prompt = "\n".join(option_list) + "\n"
 
-        user_choice = input(full_prompt)
+        print(full_prompt)
+        sys.stdout.flush()
+        user_choice = input()
 
         if user_choice.isdigit() and int(user_choice) in numbered_options:
             if multiselect:
@@ -56,3 +59,7 @@ def get_user_input[T](
         elif multiselect and not user_choice:
             return selections
         retry = True
+
+
+def unpack_single_dict_entry[T](single: dict[str, T]) -> tuple[str, T]:
+    return next(iter(single.items()))

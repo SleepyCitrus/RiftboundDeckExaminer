@@ -2,7 +2,7 @@
 
 This project is meant as a lightweight analysis of Riftbound decks. For a specific legend, we can ideally determine the most central cards based on popularity, copies per deck, and other statistics.
 
-1. Export decks from [RiftDecks](https://riftdecks.com/) to `/src/riftbounddeckanalyzer/data/decklists/{legend_name}`
+1. Export decks from [RiftDecks](https://riftdecks.com/) to `/src/riftbounddeckexaminer/data/decklists/{legend_name}`
     1. The file should be named using the placement and tournament (e.g. **"5th at S3 Shenzhen City Challenge.txt"**). You can simply copy/paste this from the website.
     2. Include inside the file the following information if you need:
         - "Date:" followed by tournament date on the next line
@@ -27,5 +27,5 @@ To run a specific script, look at the aliases defined in `[project.scripts]` in 
 Alternatively, to run specific files use the poetry run python command (assuming python points to python3)
 
 ```
-➜ poetry run python src/riftbounddeckanalyzer/readers/deck_reader.py
+➜ poetry run python src/riftbounddeckexaminer/readers/deck_reader.py
 ```

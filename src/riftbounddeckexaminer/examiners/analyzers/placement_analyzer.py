@@ -1,13 +1,21 @@
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import asdict, dataclass
+from datetime import datetime
+import json
+from pathlib import Path
 
-from riftbounddeckanalyzer.analyzers.analyzer_result import AnalyzerResult
-from riftbounddeckanalyzer.decks.deck import Deck
+from riftbounddeckexaminer.examiners.analyzers.analyzer_result import AnalyzerResult
+from riftbounddeckexaminer.examiners.analyzers.deck_analyzer import DeckAnalyzer
+from riftbounddeckexaminer.riftbound.deck import Deck
 
 
 @dataclass
-class DeckAnalyzer:
+class PlacementAnalyzer(DeckAnalyzer):
+    """
+    Uses weighted averages based on placement to determine the necessity of each card.
+    """
 
+    legend_name: str
     decks: list[Deck]
     excluded_cards: list[str]
 
@@ -84,11 +92,29 @@ class DeckAnalyzer:
         )
 
         return AnalyzerResult(
-            self.excluded_cards,
-            excluded_decks,
-            combined_chosen_champs,
+            excluded_cards=self.excluded_cards,
+            excluded_decks=excluded_decks,
+            combined_chosen_champs=combined_chosen_champs,
             combined_main_deck=combined_main_deck,
             combined_battlefields=combined_battlefields,
             combined_runes=combined_runes,
             combined_sideboards=combined_sideboards,
         )
+
+    def output_to_json(self, results: AnalyzerResult):
+        results.pretty_print()
+
+        output_path = Path(
+            f"{Path.cwd()}/src/riftbounddeckexaminer/data/analyzer/{self.legend_name}.json"
+        )
+        output_path.parent.mkdir(parents=True, exist_ok=True)
+
+        with open(output_path, "w") as f:
+            json.dump(
+                asdict(results),
+                f,
+                indent=4,
+                default=lambda o: o.isoformat() if isinstance(o, datetime) else str(o),
+            )
+
+            print(f"See full output at: {output_path.as_posix()}")

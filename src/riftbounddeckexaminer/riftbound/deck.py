@@ -8,7 +8,7 @@ DEFAULT_TOURNAMENT_SIZE = 128
 @dataclass
 class Deck:
 
-    placement: int
+    placement: int = 1
     tournament_size: int = DEFAULT_TOURNAMENT_SIZE
     date: datetime = datetime.now()
     legend: str = ""

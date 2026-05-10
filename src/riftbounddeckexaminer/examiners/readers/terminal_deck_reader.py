@@ -1,20 +1,21 @@
 from collections import defaultdict
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
-import json
 from pathlib import Path
 from typing import TextIO
 
-from riftbounddeckanalyzer.analyzers.deck_analyzer import DeckAnalyzer
-from riftbounddeckanalyzer.decks.deck import DATE_FORMAT, Deck
-from riftbounddeckanalyzer.readers.decklist_metadata import DecklistMetadata
-from riftbounddeckanalyzer.readers.utils.util import get_user_input
+from riftbounddeckexaminer.examiners.readers.deck_reader import DeckReader
+from riftbounddeckexaminer.examiners.readers.decklist_metadata import DecklistMetadata
+from riftbounddeckexaminer.riftbound.deck import DATE_FORMAT, Deck
+from riftbounddeckexaminer.utils.util import get_user_input
 
-DECKS_PATH = Path(f"{Path.cwd()}/src/riftbounddeckanalyzer/data/decklists")
+DECKS_PATH = Path(f"{Path.cwd()}/src/riftbounddeckexaminer/data/decklists")
 
 
 @dataclass
-class DeckReader:
+class TerminalDeckReader(DeckReader):
+
+    unique_cards: set[str] = field(default_factory=lambda: set())
 
     def read_raw_line(self, file: TextIO) -> str:
         try:
@@ -42,9 +43,8 @@ class DeckReader:
 
         return block
 
-    def compile_decks(self, deck_files: list[Path]) -> tuple[list[Deck], set[str]]:
+    def compile_decks(self, deck_files: list[Path]) -> list[Deck]:
         valid_decks: list[Deck] = []
-        unique_cards = set()
 
         for deck_file in deck_files:
 
@@ -85,7 +85,7 @@ class DeckReader:
                     elif DecklistMetadata.MAIN_DECK in line:
                         cards = self.read_block(f)
                         deck.main_deck = cards
-                        unique_cards.update(cards.keys())
+                        self.unique_cards.update(cards.keys())
                     elif DecklistMetadata.BATTLEFIELDS in line:
                         cards = self.read_block(f)
                         deck.battlefields = cards
@@ -100,11 +100,11 @@ class DeckReader:
                     # Process parsed deck information
                     valid_decks.append(deck)
 
-        return valid_decks, unique_cards
+        return valid_decks
 
-    def pick_legend(self):
+    def pick_legend(self) -> tuple[str, Path]:
         """
-        Looks through src/riftbounddeckanalyzer/data to determine which legend to compile
+        Looks through src/riftbounddeckexaminer/data to determine which legend to compile
         deck information about.
         """
         legends = {
@@ -114,42 +114,18 @@ class DeckReader:
         user_input = get_user_input(
             legends, "Pick the legend to compile deck information about:"
         )
-        decks = []
-        legend_name = ""
-        unique_cards = set()
-        for _, legend_path in user_input.items():
-            legend_name = _
-            decks, unique_cards = self.compile_decks(list(legend_path.glob("*.txt")))
 
-        excluded_cards = get_user_input(
-            {x: x for x in unique_cards},
+        return next(iter(user_input.items()))
+
+    def exclude_cards(self) -> dict[str, str]:
+        return get_user_input(
+            {x: x for x in self.unique_cards},
             "Choose any decks with the following cards to exclude (enter to continue):",
             multiselect=True,
         )
 
-        analyzer = DeckAnalyzer(decks, list(excluded_cards.keys()))
-        results = analyzer.aggregate()
-        results.pretty_print()
+    def read_decks(self) -> list[Deck]:
+        """Find and return decks from local .txt files."""
 
-        output_path = Path(
-            f"{Path.cwd()}/src/riftbounddeckanalyzer/data/analyzer/{legend_name}.json"
-        )
-        output_path.parent.mkdir(parents=True, exist_ok=True)
-
-        with open(output_path, "w") as f:
-            json.dump(
-                asdict(results),
-                f,
-                indent=4,
-                default=lambda o: o.isoformat() if isinstance(o, datetime) else str(o),
-            )
-
-            print(f"See full output at: {output_path.as_posix()}")
-
-
-def main_function():
-    DeckReader().pick_legend()
-
-
-if __name__ == "__main__":
-    main_function()
+        legend_name, legend_path = self.pick_legend()
+        return self.compile_decks(list(legend_path.glob("*.txt")))
