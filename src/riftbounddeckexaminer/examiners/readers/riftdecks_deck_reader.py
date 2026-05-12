@@ -22,6 +22,15 @@ DEFAULT_DECK_LIMIT = 10
 
 MAIN_DECK_CARD_TYPES = [CardType.CHAMPION, CardType.UNIT, CardType.GEAR, CardType.SPELL]
 
+TOP_CUT_OPTIONS = {
+    "Winners": "Winners",
+    "Top 2": "Top 2",
+    "Top 4": "Top 4",
+    "Top 8": "Top 8",
+    "Top 16": "Top 16",
+    "Top 32": "Top 32",
+}
+
 
 @dataclass
 class ConstructedLegend:
@@ -88,7 +97,7 @@ class RiftdecksDeckReader(DeckReader):
             recent_deck: WebElement = recent_decks[i]
             deck_link = recent_deck.get_attribute("data-href")
             deck_cells = recent_deck.find_elements(by=By.CSS_SELECTOR, value="td")
-            placement = int(deck_cells[0].text.strip()[:-2])
+            placement = int("".join(filter(str.isdigit, deck_cells[0].text.strip())))
             tournament_size = int(
                 deck_cells[5]
                 .find_elements(by=By.CSS_SELECTOR, value="div")[2]
@@ -162,24 +171,33 @@ class RiftdecksDeckReader(DeckReader):
         in the top 16 of a 3★ tournament.
         """
         with SB(uc=True, test=True, incognito=True) as sb:
-            name, legend = self.pick_legend(sb)
+            _, legend = self.pick_legend(sb)
 
-            sb.click(f"tr[data-href='{legend.link}']")
-            sb.click(f'button[data-bs-target="#filters"]')
-            sb.select_option_by_text("select#hide-banned", "Hide", timeout=TIMEOUT_SEC)
-            sb.select_option_by_text("select#rank", "Top 16", timeout=TIMEOUT_SEC)
-            sb.select_option_by_value("select#relevance", "3", timeout=TIMEOUT_SEC)
-            sb.click(
-                selector="//input[@value='Apply Filters']",
-                by=By.XPATH,
-                timeout=TIMEOUT_SEC,
+            top_cut, _ = unpack_single_dict_entry(
+                get_user_input(
+                    TOP_CUT_OPTIONS,
+                    "Choose placement cutoff:",
+                    multiselect=False,
+                    sort_options=False,
+                )
             )
 
             decks_to_process = get_user_input_freeform_int(
                 DEFAULT_DECK_LIMIT,
                 20,
                 0,
-                "Choose how many decks that placed in the top 16 to compare:",
+                f"Choose how many decks that placed in the {top_cut} to compare:",
+            )
+
+            sb.click(f"tr[data-href='{legend.link}']")
+            sb.click(f'button[data-bs-target="#filters"]')
+            sb.select_option_by_text("select#hide-banned", "Hide", timeout=TIMEOUT_SEC)
+            sb.select_option_by_text("select#rank", top_cut, timeout=TIMEOUT_SEC)
+            sb.select_option_by_value("select#relevance", "3", timeout=TIMEOUT_SEC)
+            sb.click(
+                selector="//input[@value='Apply Filters']",
+                by=By.XPATH,
+                timeout=TIMEOUT_SEC,
             )
 
             print(

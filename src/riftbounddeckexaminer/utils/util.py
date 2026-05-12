@@ -3,7 +3,10 @@ import sys
 
 
 def get_user_input[T](
-    options: dict[str, T], prompt: str = "", multiselect: bool = False
+    options: dict[str, T],
+    prompt: str = "",
+    multiselect: bool = False,
+    sort_options=True,
 ) -> dict[str, T]:
     """
     Options should be a key-value pair consisting of the name of the object and the
@@ -11,7 +14,10 @@ def get_user_input[T](
 
     Returns the name and the selected object or objects if multiselect is enabled.
     """
-    sorted_options = sorted(options.keys())
+    sorted_options = options.keys()
+    if sort_options:
+        sorted_options = sorted(options.keys())
+
     numbered_options = defaultdict()
 
     for idx, option in enumerate(sorted_options):
@@ -85,6 +91,7 @@ def get_user_input_freeform_int(
         user_choice = input()
 
         if not user_choice:
+            print(f"Selected default value of {default}.")
             return default
         elif user_choice.isdigit():
             amount = int(user_choice)
